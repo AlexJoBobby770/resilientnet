@@ -1,0 +1,99 @@
+/* ResilienceScore */
+.rs-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+/* Gauge */
+.rs-gauge-wrap {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto;
+}
+
+.rs-gauge-svg {
+  width: 128px;
+  height: 128px;
+}
+
+.rs-gauge-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.rs-score {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1;
+}
+.rs-score--green  { color: var(--status-green); }
+.rs-score--orange { color: var(--status-orange); }
+.rs-score--red    { color: var(--status-red); }
+
+/* Metrics */
+.rs-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rs-metric-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.rs-metric-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.rs-metric-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rs-metric-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rs-metric-icon--green  { background: var(--status-green-bg);  color: var(--status-green); }
+.rs-metric-icon--orange { background: var(--status-orange-bg); color: var(--status-orange); }
+.rs-metric-icon--red    { background: var(--status-red-bg);    color: var(--status-red); }
+.rs-metric-icon--blue   { background: var(--accent-soft);      color: var(--accent); }
+
+/* Progress bar */
+.rs-bar-track {
+  width: 100%;
+  height: 5px;
+  background: var(--border-light);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.rs-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .5s ease;
+}
+.rs-bar-fill--green  { background: var(--status-green); }
+.rs-bar-fill--orange { background: var(--status-orange); }
+.rs-bar-fill--red    { background: var(--status-red); }
+.rs-bar-fill--blue   { background: var(--accent); }
