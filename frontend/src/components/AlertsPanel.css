@@ -1,0 +1,126 @@
+/* AlertsPanel */
+.alerts-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.alerts-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.alerts-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.alerts-all-good {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--status-green);
+  background: var(--status-green-bg);
+  border: 1px solid var(--status-green-border);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alerts-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  color: var(--status-green);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Alert item */
+.alert-item {
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  border: 1px solid;
+}
+
+.alert-item--red {
+  background: var(--status-red-bg);
+  border-color: var(--status-red-border);
+}
+
+.alert-item--orange {
+  background: var(--status-orange-bg);
+  border-color: var(--status-orange-border);
+}
+
+.alert-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.alert-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alert-icon--red    { background: var(--status-red-bg);    color: var(--status-red);    border: 1px solid var(--status-red-border); }
+.alert-icon--orange { background: var(--status-orange-bg); color: var(--status-orange); border: 1px solid var(--status-orange-border); }
+
+.alert-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.alert-resource {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.alert-score {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.alert-recs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 4px;
+}
+
+.alert-recs li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.alert-recs li svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}

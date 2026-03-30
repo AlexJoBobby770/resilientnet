@@ -1,0 +1,78 @@
+/* ResourceForm */
+.resource-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.resource-form-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: -8px;
+}
+
+.resource-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.resource-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.resource-field-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.resource-field-icon {
+  display: flex;
+  align-items: center;
+}
+
+.resource-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.resource-input {
+  padding-right: 42px;
+}
+
+.resource-unit {
+  position: absolute;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.resource-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+  border-top: 1px solid var(--border-light);
+}
+
+.resource-submit {
+  gap: 7px;
+}
+
+.resource-submit:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
