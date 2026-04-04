@@ -22,6 +22,7 @@ app.use('/api/households', require('./routes/households'));
 app.use('/api/logs', require('./routes/logs'));
 app.use('/api/forecast', require('./routes/forecast'));
 app.use('/api/alerts', require('./routes/alerts'));
+app.use('/api/resilience', require('./routes/forecast'));
 
 // Note: Your teammate will handle app.use('/api/auth', ...)
 

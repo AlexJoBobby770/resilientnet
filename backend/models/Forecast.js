@@ -12,4 +12,20 @@ const ForecastSchema = new mongoose.Schema({
     }]
 });
 
+router.get('/resilience/:householdId', async (req, res) => {
+    try {
+        const log = await ResourceLog.findOne({ householdId: req.params.householdId })
+            .sort({ date: -1 });
+        if (!log) return res.json({ overall: 0, energy: 0, water: 0, lpg: 0, status: 'critical' });
+        const r = await axios.post(`${AI_SERVICE_URL}/resilience-score`, {
+            electricity_kwh: log.electricity_kwh,
+            water_liters: log.water_liters,
+            lpg_days_remaining: log.lpg_kg_remaining / 0.3
+        });
+        res.json(r.data);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = mongoose.model('Forecast', ForecastSchema);
