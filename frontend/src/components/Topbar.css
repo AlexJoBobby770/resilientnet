@@ -1,72 +1,208 @@
-/* Topbar */
+/* =========================================================
+   Topbar.css - Premium SaaS Light Mode
+========================================================= */
+
+/* ── 1. Local Design Tokens ─────────────────────────────── */
+:root {
+  --topbar-height: 72px;
+  --topbar-bg: rgba(255, 255, 255, 0.85);
+  --topbar-border: rgba(15, 23, 42, 0.08);
+
+  --topbar-text-main: #0f172a;
+  --topbar-text-muted: #475569;
+  --topbar-text-faint: #94a3b8;
+
+  --topbar-accent: #4f46e5;
+  --topbar-btn-hover: rgba(15, 23, 42, 0.04);
+}
+
+/* ── 2. Main Header Container ───────────────────────────── */
 .topbar {
-  height: 60px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  height: var(--topbar-height);
+  padding: 0 2rem;
+  background: var(--topbar-bg);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border-bottom: 1px solid var(--topbar-border);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--topbar-text-main);
   position: sticky;
   top: 0;
-  z-index: 10;
-  flex-shrink: 0;
+  z-index: 40;
 }
 
+/* ── 3. Left: Breadcrumbs & Title ───────────────────────── */
 .topbar-left {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 4px;
+}
+
+.topbar-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--topbar-text-faint);
+  letter-spacing: 0.02em;
+}
+
+.breadcrumb-root {
+  color: var(--topbar-text-muted);
+}
+
+.breadcrumb-sep {
+  color: var(--topbar-text-faint);
+  opacity: 0.5;
+}
+
+.breadcrumb-current {
+  color: var(--topbar-accent);
 }
 
 .topbar-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  line-height: 1;
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--topbar-text-main);
+  line-height: 1.1;
 }
 
-.topbar-subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
+/* ── 4. Right: Tools & Clock ────────────────────────────── */
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1.25rem;
+  /* 20px */
 }
 
-.topbar-date {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 400;
+/* Live Clock */
+.topbar-clock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 14px;
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--topbar-border);
+  border-radius: 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--topbar-text-muted);
+  /* CRITICAL: Keeps seconds from causing layout jitter */
+  font-variant-numeric: tabular-nums;
 }
 
-.topbar-refresh {
-  font-size: 12px;
+.topbar-clock-sep {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--topbar-text-faint);
 }
 
-.topbar-refresh--spin svg {
-  animation: spin .8s linear infinite;
+.topbar-clock-time {
+  color: var(--topbar-text-main);
+  font-weight: 700;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* Vertical Divider */
+.topbar-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--topbar-border);
 }
 
-.topbar-notif {
+/* ── 5. Action Buttons (Refresh & Bell) ─────────────────── */
+.topbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--topbar-text-muted);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.topbar-btn:hover {
+  background: var(--topbar-btn-hover);
+  color: var(--topbar-text-main);
+}
+
+/* GSAP targets the wrapper inside the button so the hover background stays still while the icon spins/rings */
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  /* Hint for GSAP physics */
+}
+
+/* Refresh Button Loading State */
+.topbar-btn.is-loading {
+  color: var(--topbar-accent);
+  background: rgba(79, 70, 229, 0.05);
+  /* Faint Indigo */
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+/* Notifications Bell Wrap */
+.topbar-notif-wrap {
   position: relative;
-  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .topbar-notif-dot {
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 7px;
-  height: 7px;
-  background: var(--status-red);
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  /* Rose 500 */
+  border: 2px solid #ffffff;
+  /* Matches the topbar background to create a "cutout" effect */
   border-radius: 50%;
-  border: 1.5px solid var(--surface);
+  box-sizing: content-box;
+  pointer-events: none;
+}
+
+/* ── 6. Responsive Design ───────────────────────────────── */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 0 1rem;
+  }
+
+  /* Hide the date part of the clock on smaller screens to save space */
+  .topbar-clock-date,
+  .topbar-clock-sep {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar-breadcrumb {
+    display: none;
+    /* Hide breadcrumbs on mobile */
+  }
+
+  .topbar-title {
+    font-size: 1.1rem;
+  }
+
+  .topbar-clock {
+    display: none;
+    /* Hide clock entirely on very small screens */
+  }
 }

@@ -1,99 +1,179 @@
-/* ResilienceScore */
+/* ============================================================
+   ResilienceScore — React Bits Card Style
+   ============================================================ */
+
 .rs-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-md);
+  width: 100%;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
 }
 
-/* Gauge */
+/* ── Header ─────────────────────────────────────────────── */
+.rs-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.rs-header-icon {
+  color: var(--accent-light);
+}
+
+.rs-card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* ── Circular Gauge ─────────────────────────────────────── */
 .rs-gauge-wrap {
   position: relative;
-  width: 128px;
-  height: 128px;
-  margin: 0 auto;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 1.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .rs-gauge-svg {
-  width: 128px;
-  height: 128px;
-}
-
-.rs-gauge-inner {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.rs-gauge-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 8px;
+}
+
+.rs-gauge-arc {
+  fill: none;
+  stroke-width: 8px;
+  stroke-linecap: round;
+  will-change: stroke-dashoffset;
+}
+
+.rs-gauge-arc--success { stroke: var(--status-green); }
+.rs-gauge-arc--warning { stroke: var(--status-amber); }
+.rs-gauge-arc--critical { stroke: var(--status-red); }
+
+.rs-gauge-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  z-index: 2;
 }
 
-.rs-score {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -.03em;
+.rs-score-number {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
   line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
 }
-.rs-score--green  { color: var(--status-green); }
-.rs-score--orange { color: var(--status-orange); }
-.rs-score--red    { color: var(--status-red); }
 
-/* Metrics */
+.rs-score-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.rs-score-number--success, .rs-score-label--success { color: var(--status-green); }
+.rs-score-number--warning, .rs-score-label--warning { color: var(--status-amber); }
+.rs-score-number--critical, .rs-score-label--critical { color: var(--status-red); }
+
+/* ── Divider ────────────────────────────────────────────── */
+.rs-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.25rem 0;
+  width: 100%;
+}
+
+/* ── Sub-Metrics ────────────────────────────────────────── */
 .rs-metrics {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0.85rem;
+}
+
+.rs-metric {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.rs-metric.hover-lift:hover {
+  border-color: var(--border);
 }
 
 .rs-metric-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 5px;
-}
-
-.rs-metric-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  flex: 1;
-}
-
-.rs-metric-value {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-primary);
+  margin-bottom: 0.5rem;
 }
 
 .rs-metric-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  margin-right: 8px;
 }
-.rs-metric-icon--green  { background: var(--status-green-bg);  color: var(--status-green); }
-.rs-metric-icon--orange { background: var(--status-orange-bg); color: var(--status-orange); }
-.rs-metric-icon--red    { background: var(--status-red-bg);    color: var(--status-red); }
-.rs-metric-icon--blue   { background: var(--accent-soft);      color: var(--accent); }
 
-/* Progress bar */
+.rs-metric-icon--success { background: var(--status-green-dim); color: var(--status-green); }
+.rs-metric-icon--warning { background: var(--status-amber-dim); color: var(--status-amber); }
+.rs-metric-icon--critical { background: var(--status-red-dim); color: var(--status-red); }
+
+.rs-metric-label {
+  flex: 1;
+  font-weight: 500;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.rs-metric-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+}
+
+/* Bar Track & Fill */
 .rs-bar-track {
   width: 100%;
   height: 5px;
-  background: var(--border-light);
-  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .rs-bar-fill {
   height: 100%;
-  border-radius: 99px;
-  transition: width .5s ease;
+  border-radius: 10px;
+  will-change: width;
 }
-.rs-bar-fill--green  { background: var(--status-green); }
-.rs-bar-fill--orange { background: var(--status-orange); }
-.rs-bar-fill--red    { background: var(--status-red); }
-.rs-bar-fill--blue   { background: var(--accent); }
+
+.rs-bar-fill--success { background: var(--status-green); }
+.rs-bar-fill--warning { background: var(--status-amber); }
+.rs-bar-fill--critical { background: var(--status-red); }
