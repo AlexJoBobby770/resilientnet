@@ -1,22 +1,24 @@
-/* StatCard */
+/* ============================================================
+   StatCard — React Bits Dark Metric Card
+   ============================================================ */
+
 .stat-card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  cursor: default;
-  transition: box-shadow .15s ease;
+  gap: 0.65rem;
+  padding: 1.35rem 1.5rem;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  font-family: var(--font-sans);
+  transition: border-color 0.2s ease;
 }
 
 .stat-card:hover {
-  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
 }
 
-/* Accent strip on left */
-.stat-card--green  { border-left: 3px solid var(--status-green); }
-.stat-card--orange { border-left: 3px solid var(--status-orange); }
-.stat-card--red    { border-left: 3px solid var(--status-red); }
-.stat-card--blue   { border-left: 3px solid var(--accent); }
-
+/* ── Header ─────────────────────────────────────────────── */
 .stat-card-header {
   display: flex;
   align-items: center;
@@ -24,52 +26,64 @@
 }
 
 .stat-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .04em;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--text-secondary);
 }
 
 .stat-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
 }
 
-.stat-icon--green  { background: var(--status-green-bg);  color: var(--status-green); }
-.stat-icon--orange { background: var(--status-orange-bg); color: var(--status-orange); }
-.stat-icon--red    { background: var(--status-red-bg);    color: var(--status-red); }
-.stat-icon--blue   { background: var(--accent-soft);      color: var(--accent); }
+.stat-icon--green  { background: var(--status-green-dim); color: var(--status-green); }
+.stat-icon--amber  { background: var(--status-amber-dim); color: var(--status-amber); }
+.stat-icon--red    { background: var(--status-red-dim);   color: var(--status-red);   }
+.stat-icon--blue   { background: var(--status-blue-dim);  color: var(--status-blue);  }
 
+/* ── Value ──────────────────────────────────────────────── */
 .stat-value-row {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 5px;
 }
 
 .stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
   line-height: 1;
-  letter-spacing: -.02em;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-unit {
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
+/* ── Delta ──────────────────────────────────────────────── */
 .stat-delta {
-  font-size: 11px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  width: fit-content;
 }
 
-.stat-delta--up      { color: var(--status-green); }
-.stat-delta--down    { color: var(--status-red); }
-.stat-delta--neutral { color: var(--text-muted); }
+.stat-delta--up      { background: var(--status-green-dim); color: var(--status-green); }
+.stat-delta--down    { background: var(--status-red-dim); color: var(--status-red); }
+.stat-delta--neutral { background: rgba(255, 255, 255, 0.04); color: var(--text-secondary); }

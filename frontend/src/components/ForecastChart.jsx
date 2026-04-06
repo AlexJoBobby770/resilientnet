@@ -1,3 +1,4 @@
+import React, { useRef } from 'react';
 import {
   ResponsiveContainer,
   LineChart,
@@ -6,29 +7,37 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  ReferenceLine,
+  Legend
 } from 'recharts';
+import { TrendingUp, Info } from 'lucide-react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import './ForecastChart.css';
 
-/* ── Custom Tooltip ──────────────────────────────── */
+gsap.registerPlugin(useGSAP);
+
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="chart-tooltip">
-      <p className="chart-tooltip-label">
-        {new Date(label).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+    <div className="premium-tooltip">
+      <p className="premium-tooltip-date">
+        {new Date(label).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
       </p>
-      {payload.map((p, i) => (
-        <p key={i} style={{ color: p.color }}>
-          <span className="chart-tooltip-key">{p.name}:</span> {Number(p.value).toFixed(2)}
-        </p>
-      ))}
+      <div className="premium-tooltip-metrics">
+        {payload.map((p, i) => (
+          <div key={i} className="metric-row">
+            <div className="metric-indicator" style={{ backgroundColor: p.color, boxShadow: `0 0 6px ${p.color}60` }} />
+            <span className="metric-name">{p.name}</span>
+            <span className="metric-value">
+              {Number(p.value).toFixed(2)}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-/* ── Mock data (shown when no real data provided) ── */
 const MOCK_DATA = Array.from({ length: 14 }, (_, i) => {
   const date = new Date();
   date.setDate(date.getDate() + i);
@@ -45,73 +54,127 @@ export default function ForecastChart({ data = [], resource = 'Electricity' }) {
   const chartData = data.length > 0 ? data : MOCK_DATA;
   const isMock = data.length === 0;
 
+  const cardRef = useRef(null);
+  const chartWrapRef = useRef(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({ delay: 0.1 });
+
+    tl.from(cardRef.current, {
+      y: 30,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power3.out",
+    });
+
+    tl.from(".stagger-header", {
+      y: 12,
+      opacity: 0,
+      duration: 0.45,
+      stagger: 0.08,
+      ease: "power2.out"
+    }, "-=0.4");
+
+    tl.fromTo(chartWrapRef.current,
+      { clipPath: "inset(0% 100% 0% 0%)" },
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "power3.inOut" },
+      "-=0.2"
+    );
+  }, { scope: cardRef, dependencies: [chartData] });
+
   return (
-    <div className="card forecast-card">
+    <div
+      className="forecast-card"
+      ref={cardRef}
+    >
       <div className="forecast-header">
-        <div>
-          <p className="card-title">14-Day Forecast</p>
-          <h2 className="forecast-resource">{resource} Usage</h2>
+        <div className="header-text-group">
+          <div className="stagger-header title-row">
+            <TrendingUp size={17} className="icon-accent" />
+            <p className="card-eyebrow">14-Day Forecast</p>
+          </div>
+          <h2 className="forecast-resource stagger-header">{resource} Usage</h2>
         </div>
-        {isMock && (
-          <span className="badge badge-blue">Sample Data</span>
-        )}
+
+        <div className="header-badges stagger-header">
+          {isMock && (
+            <span className="badge-demo">
+              <Info size={11} /> Sample Data
+            </span>
+          )}
+          <div className="live-pulse-indicator">
+            <div className="pulse-dot" />
+            <span>Live AI Model</span>
+          </div>
+        </div>
       </div>
 
-      <div className="forecast-chart-wrap">
-        <ResponsiveContainer width="100%" height={260}>
-          <LineChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
-            <CartesianGrid stroke="var(--border)" strokeDasharray="4 4" vertical={false} />
+      <div className="forecast-chart-wrap" ref={chartWrapRef}>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={chartData} margin={{ top: 10, right: 10, bottom: 0, left: -20 }}>
+            <CartesianGrid stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" vertical={false} />
 
             <XAxis
               dataKey="ds"
-              tickFormatter={(d) =>
-                new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-              }
-              tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+              tickFormatter={(d) => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.35)', fontWeight: 500 }}
               axisLine={false}
               tickLine={false}
+              dy={10}
             />
 
             <YAxis
-              tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+              tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.35)', fontWeight: 500 }}
               axisLine={false}
               tickLine={false}
-              width={36}
+              width={40}
+              dx={-10}
             />
 
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ stroke: 'rgba(167,139,250,0.3)', strokeWidth: 1, strokeDasharray: '4 4' }}
+            />
+
             <Legend
               iconType="circle"
               iconSize={7}
-              wrapperStyle={{ fontSize: '12px', paddingTop: '12px' }}
+              wrapperStyle={{ fontSize: '11px', fontWeight: 500, color: 'rgba(255,255,255,.5)', paddingTop: '16px' }}
+            />
+
+            <Line
+              type="monotone"
+              dataKey="yhat_lower"
+              name="Lower Bound"
+              stroke="#818cf8"
+              strokeWidth={1.5}
+              strokeDasharray="4 4"
+              dot={false}
+              activeDot={false}
+              opacity={0.4}
+            />
+
+            <Line
+              type="monotone"
+              dataKey="yhat_upper"
+              name="Upper Bound"
+              stroke="#818cf8"
+              strokeWidth={1.5}
+              strokeDasharray="4 4"
+              dot={false}
+              activeDot={false}
+              opacity={0.4}
             />
 
             <Line
               type="monotone"
               dataKey="yhat"
               name="Predicted"
-              stroke="var(--accent)"
-              strokeWidth={2}
+              stroke="#a78bfa"
+              strokeWidth={2.5}
               dot={false}
-              activeDot={{ r: 4, strokeWidth: 0 }}
-            />
-            <Line
-              type="monotone"
-              dataKey="yhat_upper"
-              name="Upper"
-              stroke="#93c5fd"
-              strokeWidth={1.5}
-              strokeDasharray="5 4"
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="yhat_lower"
-              name="Lower"
-              stroke="#93c5fd"
-              strokeWidth={1.5}
-              strokeDasharray="5 4"
-              dot={false}
+              activeDot={{ r: 5, stroke: '#08060e', strokeWidth: 2, fill: '#a78bfa' }}
+              style={{ filter: "drop-shadow(0px 6px 8px rgba(167, 139, 250, 0.3))" }}
             />
           </LineChart>
         </ResponsiveContainer>
