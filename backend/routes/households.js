@@ -11,11 +11,8 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ message: "Name and location are required" });
         }
 
-        // Hardcoded valid MongoDB ID for testing until Auth is ready
-        const mockUserId = "65f1a2b3c4d5e6f7a8b9c0d1";
-
         const newHousehold = new Household({
-            userId: mockUserId,
+            userId: req.userId,
             name,
             location
         });
@@ -33,8 +30,7 @@ router.post('/', async (req, res) => {
 // GET: Fetch households (Replacing the "working" message with real data)
 router.get('/', async (req, res) => {
     try {
-        const mockUserId = "65f1a2b3c4d5e6f7a8b9c0d1";
-        const households = await Household.find({ userId: mockUserId });
+        const households = await Household.find({ userId: req.userId });
         res.json(households);
     } catch (err) {
         console.error("GET ERROR:", err);
